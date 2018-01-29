@@ -5,14 +5,13 @@ const createEntryLoader = require('./entry-loader.js');
 
 const CDA = 'cdn';
 const CPA = 'preview';
-const CMA = 'api';
 
 module.exports = createClient;
 
 function createClient (config) {
   return {
     getContentTypes: function () {
-      return createContentfulClient(CMA, config)
+      return createContentfulClient(CDA, config)
       .get('/content_types', {limit: 1000})
       .then(res => res.items);
     },
@@ -30,7 +29,6 @@ function createContentfulClient (api, config) {
   const token = {
     [CDA]: config.cdaToken,
     [CPA]: config.cpaToken,
-    [CMA]: config.cmaToken
   }[api];
 
   const defaultParams = {};

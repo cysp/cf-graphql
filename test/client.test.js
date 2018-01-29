@@ -16,7 +16,6 @@ const createClient = proxyquire('../src/client.js', {
 const config = {
   spaceId: 'SPID',
   cdaToken: 'CDA-TOKEN',
-  cmaToken: 'CMA-TOKEN'
 };
 
 const client = createClient(config);
@@ -46,11 +45,11 @@ test('client: config options', function (t) {
   };
 
   Promise.all([p1, p2, p3]).then(() => {
-    assertCall(0, 'https://api.contentful.com/spaces/SPID', 'CMA');
+    assertCall(0, 'https://cdn.contentful.com/spaces/SPID', 'CDA');
     assertCall(1, 'https://cdn.contentful.com/spaces/SPID', 'CDA');
-    assertCall(2, 'http://api.altdomain.com/spaces/SPID', 'CMA');
+    assertCall(2, 'http://cdn.altdomain.com/spaces/SPID', 'CDA');
     assertCall(3, 'http://cdn.altdomain.com/spaces/SPID', 'CDA');
-    assertCall(4, 'https://api.contentful.com/spaces/SPID', 'CMA');
+    assertCall(4, 'https://cdn.contentful.com/spaces/SPID', 'CDA');
     assertCall(5, 'https://preview.contentful.com/spaces/SPID', 'CPA');
   });
 });
@@ -67,7 +66,7 @@ test('client: with "locale" config option', function (t) {
   c.getContentTypes()
   .then(() => {
     t.deepEqual(defaultParams(0), {locale: 'x'});
-    t.deepEqual(defaultParams(1), {});
+    t.deepEqual(defaultParams(1), {locale: 'x'});
   });
 });
 
